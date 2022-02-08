@@ -18,6 +18,14 @@ const GRID_COLOR = colors.dark;
 const SNAKE_COLOR = colors.primary;
 const FOOD_COLOR = colors.success;
 
+// helpers
+const random = (max) => Math.floor(Math.random() * max);
+
+const createFood = () => ({
+    color: FOOD_COLOR,
+    position: { x: random(CELL_COUNT), y: random(CELL_COUNT) },
+});
+
 // define game state
 const state = {
     player: {
@@ -30,10 +38,7 @@ const state = {
             { x: 3, y: 10 },
         ],
     },
-    food: {
-        color: FOOD_COLOR,
-        position: { x: 10, y: 10 },
-    },
+    food: createFood(),
 };
 
 /**
@@ -103,7 +108,11 @@ export const createGame = (canvas) => {
             position.y === state.food.position.y
         ) {
             // add new cell to snake
-            snake.push({ x: position.x, y: position.y });
+            snake.push({ ...position });
+
+            // move one cell forward
+            position.x += velocity.x;
+            position.y += velocity.y;
 
             // generate new food
             state.food = createFood();
@@ -113,16 +122,6 @@ export const createGame = (canvas) => {
         snake.push({ ...position });
         // remove old cell from the beginning of the snake
         snake.shift();
-    };
-
-    const createFood = () => {
-        const x = Math.floor(Math.random() * CELL_COUNT);
-        const y = Math.floor(Math.random() * CELL_COUNT);
-
-        return {
-            position: { x, y },
-            color: FOOD_COLOR,
-        };
     };
 
     const loopGame = (state) => {
