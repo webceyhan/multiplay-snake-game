@@ -1,5 +1,11 @@
 import { GRID_SIZE, CELL_SIZE, GRID_COLOR } from './constants';
-import { createFood, createPlayer, isOutOfBounds, keyToVelocity,  } from './utils';
+import {
+    createFood,
+    createPlayer,
+    isOutOfBounds,
+    isOverlapping,
+    keyToVelocity,
+} from './utils';
 export { GRID_SIZE } from './constants';
 
 // define game state
@@ -18,15 +24,12 @@ const movePlayer = ({ position, velocity, snake }) => {
     }
 
     // check if snake is eating itself
-    if (snake.some((cell) => cell.x === position.x && cell.y === position.y)) {
+    if (snake.some((cell) => isOverlapping(cell, position))) {
         throw 'player ate itself';
     }
 
     // check if snake is eating food
-    if (
-        position.x === state.food.position.x &&
-        position.y === state.food.position.y
-    ) {
+    if (isOverlapping(position, state.food)) {
         // add new cell to snake
         snake.push({ ...position });
 

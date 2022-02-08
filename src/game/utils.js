@@ -25,6 +25,8 @@ export const createPlayer = () => ({
 export const isOutOfBounds = ({ x, y }) =>
     x < 0 || x >= CELL_COUNT || y < 0 || y >= CELL_COUNT;
 
+export const isOverlapping = (a, b) => a.x === b.x && a.y === b.y;
+
 export const keyToVelocity = (key) => {
     switch (key) {
         case 'ArrowUp':
