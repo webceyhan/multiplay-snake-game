@@ -1,5 +1,5 @@
 import  { createHttpServer } from './http.js'
-import  { createSocketServer } from './socket/server.js'
+import  { createSocketServer } from './socket.js'
 
 const PORT = process.env.PORT || 8080;
 
