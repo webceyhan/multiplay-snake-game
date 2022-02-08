@@ -30,7 +30,7 @@ const state = {
 const createFood = (state) => {
     state.food = {
         color: FOOD_COLOR,
-        position: randomPosition(CELL_COUNT),
+        position: randomPosition(),
     };
 };
 
@@ -39,7 +39,7 @@ const movePlayer = ({ position, velocity, snake }) => {
     position.y += velocity.y;
 
     // check if snake is out of bounds
-    if (isOutOfBounds(position, CELL_COUNT)) {
+    if (isOutOfBounds(position)) {
         throw 'player out of bounds';
     }
 
