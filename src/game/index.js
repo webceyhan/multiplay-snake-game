@@ -6,7 +6,8 @@ import {
     FOOD_COLOR,
     SNAKE_COLOR,
 } from './constants';
-import { random } from './utils';
+import { keyToVelocity, random } from './utils';
+export { GRID_SIZE } from './constants';
 
 // define game state
 const state = {
@@ -129,24 +130,8 @@ export const createGame = (canvas) => {
     }, 500);
 
     // add keydown listener
-    document.addEventListener('keydown', ({ key }) => {
-        switch (key) {
-            case 'ArrowUp':
-                state.player.velocity.y = -1;
-                state.player.velocity.x = 0;
-                break;
-            case 'ArrowDown':
-                state.player.velocity.y = 1;
-                state.player.velocity.x = 0;
-                break;
-            case 'ArrowLeft':
-                state.player.velocity.y = 0;
-                state.player.velocity.x = -1;
-                break;
-            case 'ArrowRight':
-                state.player.velocity.y = 0;
-                state.player.velocity.x = 1;
-                break;
-        }
-    });
+    document.addEventListener(
+        'keydown',
+        ({ key }) => (state.player.velocity = keyToVelocity(key))
+    );
 };
