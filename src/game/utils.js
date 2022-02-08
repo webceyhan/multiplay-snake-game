@@ -2,6 +2,9 @@ export const random = (max) => Math.floor(Math.random() * max);
 
 export const randomPosition = (max) => ({ x: random(max), y: random(max) });
 
+export const isOutOfBounds = ({ x, y }, max) =>
+    x < 0 || x >= max || y < 0 || y >= max;
+
 export const keyToVelocity = (key) => {
     switch (key) {
         case 'ArrowUp':

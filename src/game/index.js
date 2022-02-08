@@ -6,7 +6,7 @@ import {
     FOOD_COLOR,
     SNAKE_COLOR,
 } from './constants';
-import { keyToVelocity, randomPosition } from './utils';
+import { isOutOfBounds, keyToVelocity, randomPosition } from './utils';
 export { GRID_SIZE } from './constants';
 
 // define game state
@@ -39,12 +39,7 @@ const movePlayer = ({ position, velocity, snake }) => {
     position.y += velocity.y;
 
     // check if snake is out of bounds
-    if (
-        position.x < 0 ||
-        position.x >= CELL_COUNT ||
-        position.y < 0 ||
-        position.y >= CELL_COUNT
-    ) {
+    if (isOutOfBounds(position, CELL_COUNT)) {
         throw 'player out of bounds';
     }
 
