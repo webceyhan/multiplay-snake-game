@@ -1,12 +1,26 @@
 <script setup>
-import { onMounted, ref } from 'vue';
-import { createGame, GRID_SIZE } from './game';
-
+import { onMounted, ref, watch } from 'vue';
+import { createGameContext, useGame, GRID_SIZE } from './game';
 
 // get canvas ref
 const canvas = ref();
 
-onMounted(() => createGame(canvas.value));
+// get state object
+const game = useGame();
+
+onMounted(() => {
+  // create game
+  const gameCtx = createGameContext(canvas.value);
+
+  // watch for changes in state
+  watch(game.state, () => gameCtx.draw(game.state));
+
+  // watch for keydown events
+  document.addEventListener('keydown', game.emitKeyDown);
+
+  game.startGame();
+
+});
 
 </script>
 
