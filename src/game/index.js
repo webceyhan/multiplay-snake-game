@@ -6,6 +6,7 @@ import {
     FOOD_COLOR,
     SNAKE_COLOR,
 } from './constants';
+import { random } from './utils';
 
 // define game state
 const state = {
@@ -24,9 +25,6 @@ const state = {
         position: { x: 5, y: 5 },
     },
 };
-
-// helpers
-const random = (max) => Math.floor(Math.random() * max);
 
 const createFood = (state) => {
     state.food = {
