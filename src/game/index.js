@@ -1,3 +1,4 @@
+import { reactive, watch } from 'vue';
 import { GRID_SIZE, CELL_SIZE, GRID_COLOR } from './constants';
 import {
     createFood,
@@ -10,10 +11,10 @@ import {
 export { GRID_SIZE } from './constants';
 
 // define game state
-const state = {
+const state = reactive({
     player: createPlayer(),
     food: createFood(),
-};
+});
 
 const movePlayer = ({ position, velocity, snake }) => {
     movePosition(position, velocity);
@@ -43,6 +44,15 @@ const movePlayer = ({ position, velocity, snake }) => {
     // remove first, add to last of the snake
     snake.shift() && snake.push({ ...position });
 };
+
+const gameLoop = setInterval(() => {
+    try {
+        movePlayer(state.player);
+    } catch (error) {
+        clearInterval(gameLoop);
+        console.log(error);
+    }
+}, 500);
 
 /**
  *
@@ -84,21 +94,10 @@ export const createGame = (canvas) => {
         drawPlayer(state.player);
     };
 
-    const loopGame = (state) => {
-        movePlayer(state.player);
-        drawGame(state);
-    };
+    // watch for changes in state
+    watch(state, () => drawGame(state));
 
-    const gameLoop = setInterval(() => {
-        try {
-            loopGame(state);
-        } catch (error) {
-            clearInterval(gameLoop);
-            console.log(error);
-        }
-    }, 500);
-
-    // add keydown listener
+    // watch for keydown events
     document.addEventListener(
         'keydown',
         ({ key }) => (state.player.velocity = keyToVelocity(key))
