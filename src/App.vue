@@ -93,7 +93,7 @@ onMounted(() => {
       snake.push({ x: position.x, y: position.y });
 
       // generate new food
-      state.food = generateRandomFood();
+      state.food = createFood();
     }
 
     // add new cell to the end of the snake
@@ -102,7 +102,7 @@ onMounted(() => {
     snake.shift();
   }
 
-  const generateRandomFood = () => {
+  const createFood = () => {
     const x = Math.floor(Math.random() * CELL_COUNT);
     const y = Math.floor(Math.random() * CELL_COUNT);
 
