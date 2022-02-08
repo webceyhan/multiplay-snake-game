@@ -21,6 +21,7 @@ const CELL_COUNT = 20;
 const CELL_SIZE = GRID_SIZE / CELL_COUNT;
 const GRID_COLOR = colors.dark;
 const SNAKE_COLOR = colors.primary;
+const FOOD_COLOR = colors.success;
 
 // define game state
 const state = {
@@ -34,11 +35,13 @@ const state = {
       { x: 3, y: 10 },
     ]
   },
+  food: {
+    color: FOOD_COLOR,
+    position: { x: 10, y: 10 },
+  },
 };
 
 onMounted(() => {
-
-
   // define grid size (mandatory for canvas)
   grid.value.width = grid.value.height = GRID_SIZE;
 
@@ -55,9 +58,16 @@ onMounted(() => {
     snake.forEach((cell) => drawCell(cell, color));
   }
 
+  const drawFood = ({ position, color }) => {
+    drawCell(position, color);
+  }
+
   const drawGame = (state) => {
     // draw canvas to clear for next frame
     drawCell({ x: 0, y: 0, w: GRID_SIZE, h: GRID_SIZE }, GRID_COLOR);
+
+    // draw food
+    drawFood(state.food);
 
     // draw player
     drawPlayer(state.player);
@@ -72,10 +82,29 @@ onMounted(() => {
       throw 'player out of bounds';
     }
 
+    // check if snake is eating food
+    if (position.x === state.food.position.x && position.y === state.food.position.y) {
+      // add new cell to snake
+      snake.push({ x: position.x, y: position.y });
+
+      // generate new food
+      state.food = generateRandomFood();
+    }
+
     // add new cell to the end of the snake
     snake.push({ ...position });
     // remove old cell from the beginning of the snake
     snake.shift();
+  }
+
+  const generateRandomFood = () => {
+    const x = Math.floor(Math.random() * CELL_COUNT);
+    const y = Math.floor(Math.random() * CELL_COUNT);
+
+    return {
+      position: { x, y },
+      color: FOOD_COLOR,
+    };
   }
 
   const loopGame = (state) => {
