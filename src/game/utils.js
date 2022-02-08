@@ -1,10 +1,15 @@
-import { CELL_COUNT } from './constants';
+import { CELL_COUNT, FOOD_COLOR } from './constants';
 
 export const random = (max) => Math.floor(Math.random() * max);
 
 export const randomPosition = () => ({
     x: random(CELL_COUNT),
     y: random(CELL_COUNT),
+});
+
+export const createFood = () => ({
+    color: FOOD_COLOR,
+    position: randomPosition(),
 });
 
 export const isOutOfBounds = ({ x, y }) =>

@@ -1,12 +1,5 @@
-import {
-    GRID_SIZE,
-    CELL_SIZE,
-    CELL_COUNT,
-    GRID_COLOR,
-    FOOD_COLOR,
-    SNAKE_COLOR,
-} from './constants';
-import { isOutOfBounds, keyToVelocity, randomPosition } from './utils';
+import { GRID_SIZE, CELL_SIZE, GRID_COLOR, SNAKE_COLOR } from './constants';
+import { createFood, isOutOfBounds, keyToVelocity,  } from './utils';
 export { GRID_SIZE } from './constants';
 
 // define game state
@@ -21,17 +14,7 @@ const state = {
             { x: 3, y: 10 },
         ],
     },
-    food: {
-        color: FOOD_COLOR,
-        position: { x: 5, y: 5 },
-    },
-};
-
-const createFood = (state) => {
-    state.food = {
-        color: FOOD_COLOR,
-        position: randomPosition(),
-    };
+    food: createFood(),
 };
 
 const movePlayer = ({ position, velocity, snake }) => {
@@ -61,7 +44,7 @@ const movePlayer = ({ position, velocity, snake }) => {
         position.y += velocity.y;
 
         // generate new food
-        createFood(state);
+        state.food = createFood();
     }
 
     // add new cell to the end of the snake
