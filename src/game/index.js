@@ -1,19 +1,10 @@
-import { GRID_SIZE, CELL_SIZE, GRID_COLOR, SNAKE_COLOR } from './constants';
-import { createFood, isOutOfBounds, keyToVelocity,  } from './utils';
+import { GRID_SIZE, CELL_SIZE, GRID_COLOR } from './constants';
+import { createFood, createPlayer, isOutOfBounds, keyToVelocity,  } from './utils';
 export { GRID_SIZE } from './constants';
 
 // define game state
 const state = {
-    player: {
-        color: SNAKE_COLOR,
-        position: { x: 3, y: 10 },
-        velocity: { x: 1, y: 0 },
-        snake: [
-            { x: 1, y: 10 },
-            { x: 2, y: 10 },
-            { x: 3, y: 10 },
-        ],
-    },
+    player: createPlayer(),
     food: createFood(),
 };
 

@@ -1,4 +1,4 @@
-import { CELL_COUNT, FOOD_COLOR } from './constants';
+import { CELL_COUNT, FOOD_COLOR, SNAKE_COLOR } from './constants';
 
 export const random = (max) => Math.floor(Math.random() * max);
 
@@ -10,6 +10,16 @@ export const randomPosition = () => ({
 export const createFood = () => ({
     color: FOOD_COLOR,
     position: randomPosition(),
+});
+
+export const createPlayer = () => ({
+    color: SNAKE_COLOR,
+    position: { x: 2, y: 10 },
+    velocity: { x: 1, y: 0 },
+    snake: [
+        { x: 1, y: 10 },
+        { x: 2, y: 10 },
+    ],
 });
 
 export const isOutOfBounds = ({ x, y }) =>
