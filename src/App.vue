@@ -82,6 +82,11 @@ onMounted(() => {
       throw 'player out of bounds';
     }
 
+    // check if snake is eating itself
+    if (snake.some((cell) => cell.x === position.x && cell.y === position.y)) {
+      throw 'player ate itself';
+    }
+
     // check if snake is eating food
     if (position.x === state.food.position.x && position.y === state.food.position.y) {
       // add new cell to snake
