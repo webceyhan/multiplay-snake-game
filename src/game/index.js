@@ -5,6 +5,7 @@ import {
     isOutOfBounds,
     isOverlapping,
     keyToVelocity,
+    movePosition,
 } from './utils';
 export { GRID_SIZE } from './constants';
 
@@ -15,8 +16,7 @@ const state = {
 };
 
 const movePlayer = ({ position, velocity, snake }) => {
-    position.x += velocity.x;
-    position.y += velocity.y;
+    movePosition(position, velocity);
 
     // check if snake is out of bounds
     if (isOutOfBounds(position)) {
@@ -29,22 +29,19 @@ const movePlayer = ({ position, velocity, snake }) => {
     }
 
     // check if snake is eating food
-    if (isOverlapping(position, state.food)) {
+    if (isOverlapping(position, state.food.position)) {
         // add new cell to snake
         snake.push({ ...position });
 
         // move one cell forward
-        position.x += velocity.x;
-        position.y += velocity.y;
+        movePosition(position, velocity);
 
         // generate new food
         state.food = createFood();
     }
 
-    // add new cell to the end of the snake
-    snake.push({ ...position });
-    // remove old cell from the beginning of the snake
-    snake.shift();
+    // remove first, add to last of the snake
+    snake.shift() && snake.push({ ...position });
 };
 
 /**

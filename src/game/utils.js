@@ -7,6 +7,16 @@ export const randomPosition = () => ({
     y: random(CELL_COUNT),
 });
 
+export const isOutOfBounds = ({ x, y }) =>
+    x < 0 || x >= CELL_COUNT || y < 0 || y >= CELL_COUNT;
+
+export const isOverlapping = (a, b) => a.x === b.x && a.y === b.y;
+
+export const movePosition = (position, velocity) => {
+    position.x += velocity.x;
+    position.y += velocity.y;
+};
+
 export const createFood = () => ({
     color: FOOD_COLOR,
     position: randomPosition(),
@@ -21,11 +31,6 @@ export const createPlayer = () => ({
         { x: 2, y: 10 },
     ],
 });
-
-export const isOutOfBounds = ({ x, y }) =>
-    x < 0 || x >= CELL_COUNT || y < 0 || y >= CELL_COUNT;
-
-export const isOverlapping = (a, b) => a.x === b.x && a.y === b.y;
 
 export const keyToVelocity = (key) => {
     switch (key) {
