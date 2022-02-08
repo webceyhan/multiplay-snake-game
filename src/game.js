@@ -16,15 +16,7 @@ const CELL_COUNT = 20;
 const CELL_SIZE = GRID_SIZE / CELL_COUNT;
 const GRID_COLOR = colors.dark;
 const SNAKE_COLOR = colors.primary;
-const FOOD_COLOR = colors.success;
-
-// helpers
-const random = (max) => Math.floor(Math.random() * max);
-
-const createFood = () => ({
-    color: FOOD_COLOR,
-    position: { x: random(CELL_COUNT), y: random(CELL_COUNT) },
-});
+const FOOD_COLOR = colors.warning;
 
 // define game state
 const state = {
@@ -38,7 +30,59 @@ const state = {
             { x: 3, y: 10 },
         ],
     },
-    food: createFood(),
+    food: {
+        color: FOOD_COLOR,
+        position: { x: 5, y: 5 },
+    },
+};
+
+// helpers
+const random = (max) => Math.floor(Math.random() * max);
+
+const createFood = () => ({
+    color: FOOD_COLOR,
+    position: { x: random(CELL_COUNT), y: random(CELL_COUNT) },
+});
+
+const movePlayer = ({ position, velocity, snake }) => {
+    position.x += velocity.x;
+    position.y += velocity.y;
+
+    // check if snake is out of bounds
+    if (
+        position.x < 0 ||
+        position.x >= CELL_COUNT ||
+        position.y < 0 ||
+        position.y >= CELL_COUNT
+    ) {
+        throw 'player out of bounds';
+    }
+
+    // check if snake is eating itself
+    if (snake.some((cell) => cell.x === position.x && cell.y === position.y)) {
+        throw 'player ate itself';
+    }
+
+    // check if snake is eating food
+    if (
+        position.x === state.food.position.x &&
+        position.y === state.food.position.y
+    ) {
+        // add new cell to snake
+        snake.push({ ...position });
+
+        // move one cell forward
+        position.x += velocity.x;
+        position.y += velocity.y;
+
+        // generate new food
+        state.food = createFood();
+    }
+
+    // add new cell to the end of the snake
+    snake.push({ ...position });
+    // remove old cell from the beginning of the snake
+    snake.shift();
 };
 
 /**
@@ -79,49 +123,6 @@ export const createGame = (canvas) => {
 
         // draw player
         drawPlayer(state.player);
-    };
-
-    const movePlayer = ({ position, velocity, snake }) => {
-        position.x += velocity.x;
-        position.y += velocity.y;
-
-        // check if snake is out of bounds
-        if (
-            position.x < 0 ||
-            position.x >= CELL_COUNT ||
-            position.y < 0 ||
-            position.y >= CELL_COUNT
-        ) {
-            throw 'player out of bounds';
-        }
-
-        // check if snake is eating itself
-        if (
-            snake.some((cell) => cell.x === position.x && cell.y === position.y)
-        ) {
-            throw 'player ate itself';
-        }
-
-        // check if snake is eating food
-        if (
-            position.x === state.food.position.x &&
-            position.y === state.food.position.y
-        ) {
-            // add new cell to snake
-            snake.push({ ...position });
-
-            // move one cell forward
-            position.x += velocity.x;
-            position.y += velocity.y;
-
-            // generate new food
-            state.food = createFood();
-        }
-
-        // add new cell to the end of the snake
-        snake.push({ ...position });
-        // remove old cell from the beginning of the snake
-        snake.shift();
     };
 
     const loopGame = (state) => {
