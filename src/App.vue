@@ -64,6 +64,11 @@ onMounted(() => {
     position.x += velocity.x;
     position.y += velocity.y;
 
+    // check if snake is out of bounds
+    if (position.x < 0 || position.x >= CELL_COUNT || position.y < 0 || position.y >= CELL_COUNT) {
+      throw 'player out of bounds';
+    }
+
     // add new cell to the end of the snake
     snake.push({ ...position });
     // remove old cell from the beginning of the snake
@@ -76,7 +81,12 @@ onMounted(() => {
   }
 
   const gameLoop = setInterval(() => {
-    loopGame(state);
+    try {
+      loopGame(state);
+    } catch (error) {
+      clearInterval(gameLoop);
+      console.log(error);
+    }
   }, 1000);
 });
 
