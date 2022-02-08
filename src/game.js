@@ -39,10 +39,12 @@ const state = {
 // helpers
 const random = (max) => Math.floor(Math.random() * max);
 
-const createFood = () => ({
-    color: FOOD_COLOR,
-    position: { x: random(CELL_COUNT), y: random(CELL_COUNT) },
-});
+const createFood = (state) => {
+    state.food = {
+        color: FOOD_COLOR,
+        position: { x: random(CELL_COUNT), y: random(CELL_COUNT) },
+    };
+};
 
 const movePlayer = ({ position, velocity, snake }) => {
     position.x += velocity.x;
@@ -76,7 +78,7 @@ const movePlayer = ({ position, velocity, snake }) => {
         position.y += velocity.y;
 
         // generate new food
-        state.food = createFood();
+        createFood(state);
     }
 
     // add new cell to the end of the snake
