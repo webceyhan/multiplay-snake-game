@@ -1,5 +1,7 @@
 export const random = (max) => Math.floor(Math.random() * max);
 
+export const randomPosition = (max) => ({ x: random(max), y: random(max) });
+
 export const keyToVelocity = (key) => {
     switch (key) {
         case 'ArrowUp':

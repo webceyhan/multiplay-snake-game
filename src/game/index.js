@@ -6,7 +6,7 @@ import {
     FOOD_COLOR,
     SNAKE_COLOR,
 } from './constants';
-import { keyToVelocity, random } from './utils';
+import { keyToVelocity, randomPosition } from './utils';
 export { GRID_SIZE } from './constants';
 
 // define game state
@@ -30,7 +30,7 @@ const state = {
 const createFood = (state) => {
     state.food = {
         color: FOOD_COLOR,
-        position: { x: random(CELL_COUNT), y: random(CELL_COUNT) },
+        position: randomPosition(CELL_COUNT),
     };
 };
 
