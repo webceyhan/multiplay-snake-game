@@ -11,6 +11,7 @@ const colors = {
 };
 
 // define constants
+export const FRAME_RATE = 10000 / 60;
 export const GRID_SIZE = 600;
 export const CELL_COUNT = 20;
 export const CELL_SIZE = GRID_SIZE / CELL_COUNT;

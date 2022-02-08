@@ -1,4 +1,5 @@
 import { reactive } from 'vue';
+import { FRAME_RATE } from './constants';
 import {
     createFood,
     createPlayer,
@@ -51,7 +52,7 @@ const startGame = () => {
             clearInterval(gameLoop);
             console.log(error);
         }
-    }, 500);
+    }, FRAME_RATE);
 };
 
 const emitKeyDown = ({ key }) => (state.player.velocity = keyToVelocity(key));
