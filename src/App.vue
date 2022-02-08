@@ -26,16 +26,19 @@ const SNAKE_COLOR = colors.primary;
 const state = {
   player: {
     color: SNAKE_COLOR,
-    position: { x: 2, y: 10 },
+    position: { x: 3, y: 10 },
     velocity: { x: 1, y: 0 },
     snake: [
       { x: 1, y: 10 },
       { x: 2, y: 10 },
+      { x: 3, y: 10 },
     ]
   },
 };
 
 onMounted(() => {
+
+
   // define grid size (mandatory for canvas)
   grid.value.width = grid.value.height = GRID_SIZE;
 
@@ -87,7 +90,31 @@ onMounted(() => {
       clearInterval(gameLoop);
       console.log(error);
     }
-  }, 1000);
+  }, 500);
+
+
+  // add keydown listener
+  document.addEventListener('keydown', ({ key }) => {
+    switch (key) {
+      case 'ArrowUp':
+        state.player.velocity.y = -1;
+        state.player.velocity.x = 0;
+        break;
+      case 'ArrowDown':
+        state.player.velocity.y = 1;
+        state.player.velocity.x = 0;
+        break;
+      case 'ArrowLeft':
+        state.player.velocity.y = 0;
+        state.player.velocity.x = -1;
+        break;
+      case 'ArrowRight':
+        state.player.velocity.y = 0;
+        state.player.velocity.x = 1;
+        break;
+    }
+  });
+
 });
 
 </script>
