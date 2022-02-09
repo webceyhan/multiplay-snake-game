@@ -2,6 +2,17 @@
   "name": "multiplay-snake-game",
   "version": "0.0.0",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/webceyhan/multiplay-snake-game.git"
+  },
+  "keywords": [],
+  "author": "Evren Ceyhan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/webceyhan/multiplay-snake-game/issues"
+  },
+  "homepage": "https://github.com/webceyhan/multiplay-snake-game#readme",
   "scripts": {
     "start": "node backend/main.js",
     "dev": "concurrently \"npm:dev:backend\" \"npm:dev:frontend\" ",
