@@ -1,33 +1,58 @@
-import { CELL_COUNT, FOOD_COLOR, SNAKE_COLOR } from './constants.js';
+import { CELL_COUNT, FOOD_COLOR, SNAKE_COLORS } from './constants.js';
 
-export const createState = () => ({
+export const createGame = () => {
+    // define state
+    const state = createState();
+
+    return {
+        state,
+
+        addPlayer: (id) =>
+            (state.players[id] = createPlayer(
+                Object.keys(state.players).length
+            )),
+
+        removePlayer: (id) => delete state.players[id],
+
+        movePlayer: (id, key) =>
+            (state.players[id].velocity = keyToVelocity(key)),
+
+        loop: () => {
+            Object.entries(state.players).forEach(([id, player]) => {
+                try {
+                    loopPlayer(player, state);
+                } catch (error) {
+                    state.loser = id;
+                    state.active = false;
+
+                    throw 'Game Over';
+                }
+            });
+        },
+    };
+};
+
+const createState = () => ({
     players: {},
     food: createFood(),
+    loser: null,
     active: false,
-    message: null,
 });
 
-export const createFood = () => ({
+const createFood = () => ({
     color: FOOD_COLOR,
     position: randomPosition(),
 });
 
-export const createPlayer = () => ({
-    color: SNAKE_COLOR,
-    position: { x: 2, y: 10 },
+const createPlayer = (index = 0) => ({
+    color: SNAKE_COLORS[index],
+    position: { x: 2 + index * 10, y: 10 },
     velocity: { x: 1, y: 0 },
     snake: [
-        { x: 1, y: 10 },
-        { x: 2, y: 10 },
+        { x: 1 + index * 10, y: 10 },
+        { x: 2 + index * 10, y: 10 },
     ],
 });
-
-export const movePlayer = (id, key, state) =>
-    (state.players[id].velocity = keyToVelocity(key));
-
-export const loopPlayers = (state) => {
-    Object.values(state.players).forEach((player) => loopPlayer(player, state));
-};
 
 const loopPlayer = ({ position, velocity, snake }, state) => {
     // move player position

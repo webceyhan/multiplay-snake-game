@@ -16,5 +16,5 @@ export const GRID_SIZE = 600;
 export const CELL_COUNT = 20;
 export const CELL_SIZE = GRID_SIZE / CELL_COUNT;
 export const GRID_COLOR = colors.dark;
-export const SNAKE_COLOR = colors.primary;
 export const FOOD_COLOR = colors.warning;
+export const SNAKE_COLORS = [colors.primary, colors.success];

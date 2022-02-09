@@ -7,6 +7,7 @@ const HOST_PROD = location.origin.replace(/^http/, 'ws');
 const SOCKET_URL = IS_DEV ? HOST_DEV : HOST_PROD;
 
 // define internal state
+const id = ref(null);
 const state = ref({});
 
 // define socket
@@ -23,7 +24,11 @@ socket.onmessage = (raw) => {
     const { event, data } = JSON.parse(raw.data);
 
     switch (event) {
-        case 'update':
+        case 'joined':
+            id.value = data;
+            break;
+
+        case 'state':
             state.value = data;
             break;
     }
@@ -31,9 +36,17 @@ socket.onmessage = (raw) => {
 
 export const useGame = () => {
     return {
-        state:computed(() => state.value),
+        id,
+        state,
         active: computed(() => state.value.active),
-        message: computed(() => state.value.message),
+        message: computed(() => {
+            // no message if game is active
+            if (!state.value.loser) return null;
+
+            const lost = state.value.loser === id.value;
+
+            return lost ? 'You lost!' : 'You won!';
+        }),
         emit,
     };
 };
