@@ -1,47 +1,71 @@
 import { WebSocketServer } from 'ws';
 import * as game from './game/index.js';
-import { makeId, emit, broadcast } from './utils.js';
+import { makeId, emit, broadcast, parseMessage } from './utils.js';
 
 export const createSocketServer = (httpServer) => {
     // create websocket server
     const wss = new WebSocketServer({ server: httpServer });
 
     // define game state
-    const state = game.createState();
+    let state = game.createState();
+
+    function resetGame() {
+        state = game.createState();
+        wss.clients.forEach((ws) => {
+            state.players[ws.id] = game.createPlayer();
+        });
+    }
+
+    function joinGame(ws) {
+        ws.id = makeId();
+        state.players[ws.id] = game.createPlayer();
+        console.log('client joined: ' + ws.id);
+        broadcast(wss, 'update', state);
+    }
+
+    function leaveGame(ws) {
+        delete state.players[ws.id];
+        console.log('client left: ' + ws.id);
+        broadcast(wss, 'update', state);
+    }
+
+    function makeMove(ws, key) {
+        game.movePlayer(ws.id, key, state);
+    }
 
     const startGame = () => {
+        // reset game state
+        resetGame();
+
         const gameLoop = setInterval(() => {
             try {
                 game.loopPlayers(state);
-                broadcast(wss, 'update', state);
             } catch (error) {
                 clearInterval(gameLoop);
-                console.log(error);
+                state.active = false;
+                state.message = 'Game Over: ' + error;
             }
+
+            // broadcast state to all clients
+            broadcast(wss, 'update', state);
         }, game.FRAME_RATE);
     };
 
     wss.on('connection', (ws) => {
-        // assign client id
-        ws.id = makeId();
-        console.log('client connected: ' + ws.id);
+        joinGame(ws);
 
-        // add client to state
-        state.players[ws.id] = game.createPlayer();
+        ws.on('close', () => leaveGame(ws));
 
         // listen for messages
         ws.on('message', (message) => {
             // parse message as event object
-            const { event, data } = JSON.parse(message.toString());
+            const { event, data } = parseMessage(message);
 
             switch (event) {
                 case 'start':
-                    startGame();
-                    break;
-
+                    return startGame();
                 case 'keydown':
-                    game.movePlayer(ws.id, data, state);
-                    break;
+                    return makeMove(ws, data);
             }
         });
     });

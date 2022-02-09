@@ -1,23 +1,10 @@
-import {
-    GRID_SIZE,
-    GRID_COLOR,
-    CELL_SIZE,
-    CELL_COUNT,
-    FOOD_COLOR,
-    SNAKE_COLOR,
-} from './constants.js';
+import { CELL_COUNT, FOOD_COLOR, SNAKE_COLOR } from './constants.js';
 
 export const createState = () => ({
     players: {},
     food: createFood(),
-    grid: {
-        size: GRID_SIZE,
-        color: GRID_COLOR,
-    },
-    cell: {
-        size: CELL_SIZE,
-        count: CELL_COUNT,
-    },
+    active: false,
+    message: null,
 });
 
 export const createFood = () => ({
