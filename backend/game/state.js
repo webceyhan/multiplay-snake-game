@@ -18,6 +18,8 @@ export const createGame = () => {
             (state.players[id].velocity = keyToVelocity(key)),
 
         loop: () => {
+            state.active = true;
+            
             Object.entries(state.players).forEach(([id, player]) => {
                 try {
                     loopPlayer(player, state);

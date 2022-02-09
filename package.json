@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node backend/main.js",
     "dev": "concurrently \"npm:dev:backend\" \"npm:dev:frontend\" ",
-    "dev:frontend": "vite dev",
+    "dev:frontend": "vite dev --host",
     "dev:backend": "nodemon backend/main.js",
     "build": "vite build",
     "preview": "npm start"

@@ -13,6 +13,7 @@ export const createHttpServer = (port) => {
     // create app
     const app = express();
     const server = createServer(app);
+    const hostname = '0.0.0.0';
 
     // serve static client files
     app.use(express.static(wwwDir));
@@ -21,8 +22,8 @@ export const createHttpServer = (port) => {
     app.get('*', (req, res) => res.sendFile(wwwIndex));
 
     // start listening
-    server.listen(port, () =>
-        console.log(`server started: http://localhost:${port}`)
+    server.listen(port, hostname, () =>
+        console.log(`server started: http://${hostname}:${port}`)
     );
 
     return server;

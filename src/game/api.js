@@ -2,7 +2,7 @@ import { ref, computed } from 'vue';
 
 // define environment vars
 const IS_DEV = import.meta.env.DEV;
-const HOST_DEV = 'ws://localhost:8080';
+const HOST_DEV = `ws://${location.hostname}:8080`;
 const HOST_PROD = location.origin.replace(/^http/, 'ws');
 const SOCKET_URL = IS_DEV ? HOST_DEV : HOST_PROD;
 
