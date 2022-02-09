@@ -2,9 +2,6 @@
 import { onMounted, ref, watch } from 'vue';
 import { createGameContext, GRID_SIZE, useGame } from './game';
 
-// get canvas ref
-const canvas = ref();
-
 // get state object
 const game = useGame();
 
@@ -13,7 +10,10 @@ function onStart() {
 }
 
 onMounted(() => {
-  // create game
+  // get canvas ref
+  const canvas = ref();
+
+  // initialize canvas context
   const gameCtx = createGameContext(canvas.value);
 
   // watch for changes in state
