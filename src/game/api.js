@@ -1,4 +1,4 @@
-import { reactive } from 'vue';
+import { ref, computed } from 'vue';
 
 // define environment vars
 const IS_DEV = import.meta.env.DEV;
@@ -7,7 +7,7 @@ const HOST_PROD = location.origin.replace(/^http/, 'ws');
 const SOCKET_URL = IS_DEV ? HOST_DEV : HOST_PROD;
 
 // define internal state
-const state = reactive({});
+const state = ref({});
 
 // define socket
 const socket = new WebSocket(SOCKET_URL);
@@ -31,7 +31,9 @@ socket.onmessage = (raw) => {
 
 export const useGame = () => {
     return {
-        state,
+        state:computed(() => state.value),
+        active: computed(() => state.value.active),
+        message: computed(() => state.value.message),
         emit,
     };
 };
