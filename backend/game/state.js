@@ -6,13 +6,6 @@ import {
     FOOD_COLOR,
     SNAKE_COLOR,
 } from './constants.js';
-import {
-    isOutOfBounds,
-    isOverlapping,
-    movePosition,
-    keyToVelocity,
-    randomPosition,
-} from './utils.js';
 
 export const createState = () => ({
     players: {},
@@ -77,4 +70,36 @@ const loopPlayer = ({ position, velocity, snake }, state) => {
 
     // remove first, add to last of the snake
     snake.shift() && snake.push({ ...position });
+};
+
+// HELPERS /////////////////////////////////////////////////////////////////////////////////////////
+
+const random = (max) => Math.floor(Math.random() * max);
+
+const randomPosition = () => ({
+    x: random(CELL_COUNT),
+    y: random(CELL_COUNT),
+});
+
+const isOutOfBounds = ({ x, y }) =>
+    x < 0 || x >= CELL_COUNT || y < 0 || y >= CELL_COUNT;
+
+const isOverlapping = (a, b) => a.x === b.x && a.y === b.y;
+
+const movePosition = (position, velocity) => {
+    position.x += velocity.x;
+    position.y += velocity.y;
+};
+
+const keyToVelocity = (key) => {
+    switch (key) {
+        case 'ArrowUp':
+            return { x: 0, y: -1 };
+        case 'ArrowDown':
+            return { x: 0, y: 1 };
+        case 'ArrowLeft':
+            return { x: -1, y: 0 };
+        case 'ArrowRight':
+            return { x: 1, y: 0 };
+    }
 };
