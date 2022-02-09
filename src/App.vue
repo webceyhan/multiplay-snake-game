@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, ref, watch } from 'vue';
-import { createGameContext, useGame, GRID_SIZE } from './game';
+import { createGameContext, GRID_SIZE, useGame } from './game';
 
 // get canvas ref
 const canvas = ref();
@@ -8,17 +8,19 @@ const canvas = ref();
 // get state object
 const game = useGame();
 
+function onStart() {
+  game.emit('start')
+}
+
 onMounted(() => {
   // create game
   const gameCtx = createGameContext(canvas.value);
 
   // watch for changes in state
-  watch(game.state, () => gameCtx.draw(game.state));
+  watch(game.state, () => gameCtx.draw(game.state.value));
 
   // watch for keydown events
-  document.addEventListener('keydown', game.emitKeyDown);
-
-  game.startGame();
+  document.addEventListener('keydown', ({ key }) => game.emit('keydown', key));
 
 });
 
@@ -33,6 +35,8 @@ onMounted(() => {
       class="bg-dark"
       :style="{ width: `${GRID_SIZE}px`, height: `${GRID_SIZE}px` }"
     ></canvas>
+
+    <button type="button" class="btn btn-primary btn-lg" @click="onStart">Start Game</button>
   </div>
 </template>
 

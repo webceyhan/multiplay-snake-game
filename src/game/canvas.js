@@ -1,7 +1,6 @@
 import { GRID_SIZE, CELL_SIZE, GRID_COLOR } from './constants';
 
 /**
- *
  * @param {HTMLCanvasElement} canvas
  */
 export const createGameContext = (canvas) => {
@@ -29,15 +28,15 @@ export const createGameContext = (canvas) => {
         drawCell(position, color);
     };
 
-    const draw = (state) => {
+    const draw = ({ players, food }) => {
         // draw canvas to clear for next frame
         drawCell({ x: 0, y: 0, w: GRID_SIZE, h: GRID_SIZE }, GRID_COLOR);
 
-        // draw food
-        drawFood(state.food);
+        // draw players
+        Object.values(players).forEach((player) => drawPlayer(player));
 
-        // draw player
-        drawPlayer(state.player);
+        // draw food
+        drawFood(food);
     };
 
     return { draw };
