@@ -1,7 +1,6 @@
 <!-- AUTOMATION BADGES -->
 
-[![CodeQL](https://github.com/webceyhan/multiplay-snake-game/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/webceyhan/multiplay-snake-game/actions/workflows/codeql-analysis.yml)
-[![Deploy to Heroku](https://github.com/webceyhan/multiplay-snake-game/actions/workflows/heroku.yml/badge.svg)](https://github.com/webceyhan/multiplay-snake-game/actions/workflows/heroku.yml)
+[![CodeQL](https://github.com/webceyhan/multiplay-snake-game/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/webceyhan/multiplay-snake-game/actions/workflows/github-code-scanning/codeql)
 
 <!-- LOGO (OPTIONAL) -->
 
@@ -18,11 +17,6 @@ It consists of a backend server and a frontend application.
 Backend server was implemented using ExpressJs to serve the compiled frontend app as static content. And the WebSocket Server starts listening to the same port to respond socket messages.
 
 Frontend application is built with Vite + Vue 3 + Bootstrap. Client is automatically connected to the server using standart WebSocket API the on initial request, then awaiting user to enter his name and joing the channel.
-
-[View Demo](https://webceyhan-multiplay-snake-game.herokuapp.com/) |
-[Report Issue](https://github.com/webceyhan/multiplay-snake-game/issues) |
-[Request Feature](https://github.com/webceyhan/multiplay-snake-game/pulls) |
-[@webceyhan](https://twitter.com/webceyhan)
 
 <br>
 <!-- REQUIREMENTS /////////////////////////////////////////////////////// -->
@@ -102,29 +96,11 @@ npm run preview
 <br>
 <!-- DEPLOYMENT ////////////////////////////////////////////////////////// -->
 
-## Deployment (Heroku)
+## Deployment (Render)
 
-A GitHub Action will automatically deploy the project to Heroku on every push. 
-> See the details in [.github/workflows/heroku.yml](./.github/workflows/heroku.yml)
+Project is linked to [Render](https://render.com/) for deployment.
 
-1. Create an [Heroku](https://www.heroku.com/home) account.
-
-2. Install the `heroku-cli` as shown in the [guide](https://devcenter.heroku.com/articles/heroku-cli#install-the-heroku-cli).
-
-3. Create a new Heroku app inside the project folder to bind it.
-
-    ```sh
-    heroku create
-    ```
-
-    > This will create a new application on Heroku server and bind it to your project by adding a remote `heroku` upstream to your git repository.
-
-4. Set the following secrets on your Github repository:
-    ```sh
-    HEROKU_API_KEY
-    HEROKU_APP_NAME
-    HEROKU_EMAIL
-    ```
+> It will automatically deploy the project to Render on every push.
 
 <br>
 <!-- REFERENCES ////////////////////////////////////////////////////////// -->
@@ -137,6 +113,3 @@ A GitHub Action will automatically deploy the project to Heroku on every push.
 -   [Bootstrap](https://getbootstrap.com)
 -   [Express](https://expressjs.com/)
 -   [WebSocket (WS)](https://github.com/websockets/ws)
--   [GitHub Actions](https://docs.github.com/en/actions)
-    -   [Heroku](https://www.heroku.com)
-    -   [heroku-deploy](https://github.com/akhileshns/heroku-deploy@)
